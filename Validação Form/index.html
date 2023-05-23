@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Formulário - validação</title>
+</head>
+<body>
+    <div class="content">
+        <h1>Formulário</h1>
+        <form id="form">
+            <div>
+                <input type="text" placeholder="Digite seu nome" class="inputs required" oninput="nameValidate()">
+                <span class="span-required">O nome deve ter no mínimo 3</span>
+            </div>
+
+            <div>
+                <input type="email" placeholder="Digite seu melhor email" class="inputs required" oninput="emailValidate()">
+                <span class="span-required">Digite um email válido</span>
+            </div>
+
+
+            <div>
+                <input type="password" placeholder="Digite sua senha" class="inputs required" oninput="passwordValidate()">
+                <span class="span-required">Digite uma senha com no mínimo 8 caracteres</span>
+            </div>
+
+            <div>
+                <input type="password" placeholder="Repita sua senha" class="inputs required" oninput="comparePassword()">
+                <span class="span-required">As senhas devem ser compatíveis</span>
+            </div>
+
+            <textarea class="inputs" name="descricao" id="descricao" cols="25" rows="10" placeholder="Fale um pouco sobre você..."></textarea>
+            
+
+            <p>Sexo:</p>
+            <div class="box-select">
+                <div>
+                    <input type="radio" id="m" value="m" name="sexo">
+                    <label for="m">Masculino</label>
+                </div>
+
+                <div>
+                    <input type="radio" id="f" value="f" name="sexo">
+                    <label for="f">Feminino</label>
+                </div>
+
+                <div>
+                    <input type="radio" id="o" value="o" name="sexo">
+                    <label for="o">Outro</label>
+                </div>
+            </div>
+
+            <p>Quais suas experiências?</p>
+            <div class="box-select">
+                <div>
+                    <input type="checkbox" id="html" value="html" name="experiencias">
+                    <label for="html">Html</label>
+                </div> 
+
+                <div>
+                    <input type="checkbox" id="css" value="css" name="experiencias">
+                    <label for="css">Css</label>
+                </div> 
+
+                <div>
+                    <input type="checkbox" id="js" value="js" name="experiencias">
+                    <label for="js">JavaScript</label>
+                </div> 
+
+                <div>
+                    <input type="checkbox" id="php" value="php" name="experiencias">
+                    <label for="php">PHP</label>
+                </div> 
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+<script>
+    const form   = document.getElementById('form');
+    const campos = document.querySelectorAll('.required'); //pega todos os elemtnos que tem a classe required
+    const spans  = document.querySelectorAll('.span-required');
+    const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/; //serve para validar a estrutura de um email
+
+    form.addEventListener('submit' , (event) => {
+        event.preventDefault();
+        console.log('asdsa');
+        nameValidate();
+        emailValidate();
+        passwordValidate();
+        comparePassword();
+    });
+
+    function setError(index){ //essa função está recebendo o index de um array
+        campos[index].style.border = '2px solid #e63636'; // coloca uma borda em todos os elementos com a classe required uma borda vermelha
+        spans[index].style.display = 'block';
+    }
+
+    function removeError(index){ // remove o erro. valida o campo
+        campos[index].style.border = ''; //retira a borda vermelha
+        spans[index].style.display = 'none'; // retira o span de aviso de erro 
+    }
+
+    function nameValidate(){
+        if(campos[0].value.length < 3){// ele é o primeiro input o 0 de um array 
+            setError(0);
+        }else{
+            removeError(0);
+        }
+    }
+
+    function emailValidate(){
+        if(!emailRegex.test(campos[1].value)){
+            setError(1);
+        }else{
+            removeError(1);
+        }
+    }
+
+    function passwordValidate(){
+        if(campos[2].value.length < 8){
+            setError(2);
+        }else{
+            removeError(2);
+            comparePassword()
+        }
+    }
+
+    function comparePassword(){
+        if(campos[2].value == campos[3].value && campos[3].value.length >= 8){
+            removeError(3)
+        }else{
+            setError(3)
+        }
+    }
+
+    
+
+</script>
+</html>
